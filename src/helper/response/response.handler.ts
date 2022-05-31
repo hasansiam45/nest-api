@@ -4,10 +4,17 @@ export const successhandler = (data: any, message: string) => {
         data: data || {},
         message: message || 'Success'
     };
-}
+};
 export const errorhandler = (code: number, message: string) => {
     return {
         statusCode: code,
         message: message || 'Something went wrong!'
+    };
+};
+
+export const unauthorized = () => {
+    return {
+        statusCode: 401,
+        message: 'Unauthorized!'
     };
 }

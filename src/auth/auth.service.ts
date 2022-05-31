@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { errorhandler, successhandler } from "src/helper/response/response.handler";
+import { errorhandler, successhandler, unauthorized } from "src/helper/response/response.handler";
 import { IAuth } from "./auth.model";
 
 @Injectable({})
@@ -19,7 +19,21 @@ export class AuthService {
             return errorhandler(400, JSON.stringify(err.message));
         }
     }
-    signin(){
-        return 'Logged in...'
+    async signin(username: string, password: string){
+        try{
+            const user = await this.authModel.findOne({username: username});
+            if(user){
+                if(user.password === password){
+                    return successhandler({}, 'Successfully Logged in!');
+                }else{
+                    return unauthorized();
+                }
+            }else{
+                return errorhandler(404, 'User does not exist');
+            }
+        } catch(err){
+            console.log('',err.response);
+            return errorhandler(400, JSON.stringify(err.message));
+        }
     }
 }
