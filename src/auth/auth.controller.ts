@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { IAuth } from "./auth.model";
+import { ApiBadRequestResponse, ApiTags } from "@nestjs/swagger";
+import { ISignin, ISignup } from "./auth.model";
 import { AuthService } from "./auth.service";
 
 @ApiTags('Auth')
@@ -8,13 +8,14 @@ import { AuthService } from "./auth.service";
 export class AuthController {
     constructor(private authService: AuthService){}
 
+    @ApiBadRequestResponse()
     @Post('signup')
-    signup(@Body() createUser: IAuth){
+    signup(@Body() createUser: ISignup){
         return this.authService.signup(createUser.username, createUser.password);
     }
 
     @Post('signin')
-    signin(@Body() signinUser: IAuth){
+    signin(@Body() signinUser: ISignin){
         return this.authService.signin(signinUser.username, signinUser.password);
     }
 }

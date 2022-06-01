@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { errorhandler, successhandler, unauthorized } from "src/helper/response/response.handler";
-import { IAuth } from "./auth.model";
+import { ISignup } from "./auth.model";
 
 @Injectable({})
 export class AuthService {
-    constructor(@InjectModel('Auth') private readonly authModel: Model<IAuth>){}
+    constructor(@InjectModel('Auth') private readonly authModel: Model<ISignup>){}
     async signup(username: string, password: string){
         try{
             const user = new this.authModel({
